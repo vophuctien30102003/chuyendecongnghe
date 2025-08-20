@@ -1,0 +1,72 @@
+# Python bytecode
+*/__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+.eggs/
+*.egg-info/
+
+# Virtual environments
+venv/
+.env/
+.env*/
+ENV/
+.envrc
+
+# Local virtualenvs inside project folders
+**/env/
+
+# Django stuff
+*.log
+local_settings.py
+media/
+staticfiles/
+
+# SQLite databases
+*.sqlite3
+/db.sqlite3
+**/db.sqlite3
+
+# VS Code
+.vscode/
+.code-workspace
+
+# IDE
+.idea/
+*.iml
+
+# Mypy / Pyright / Type checking
+.mypy_cache/
+.pytype/
+.pyre/
+
+# Test / coverage reports
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.pytest_cache/
+.junitxml
+
+# Cached translations
+*.mo
+
+# Misc
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Secret keys / env vars
+.env.local
+.env.prod
+.env.dev
+
+# Node (if added later)
+node_modules/
+
+# Backup files
+*~
