@@ -1,0 +1,146 @@
+{% extends "polls/layout.html" %}
+{% load static %}
+
+{% block title %}Home - Recent Messages{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">
+                    <i class="fas fa-comments"></i> Recent Messages
+                </h4>
+                <a href="{% url 'polls:log' %}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus"></i> Add Message
+                </a>
+            </div>
+            <div class="card-body">
+                {% if message_list %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th><i class="fas fa-calendar"></i> Date</th>
+                                    <th><i class="fas fa-clock"></i> Time</th>
+                                    <th><i class="fas fa-comment"></i> Message</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for message in message_list %}
+                                <tr>
+                                    <td>{{ message.log_date|date:'M d, Y' }}</td>
+                                    <td>{{ message.log_date|time:'H:i:s' }}</td>
+                                    <td>
+                                        <div class="message-content">
+                                            {{ message.message|truncatechars:100 }}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="text-center mt-3">
+                        <a href="{% url 'polls:message_list' %}" class="btn btn-outline-primary">
+                            <i class="fas fa-list"></i> View All Messages
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-comment-slash fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">No messages yet</h5>
+                        <p class="text-muted">Be the first to log a message!</p>
+                        <a href="{% url 'polls:log' %}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Create First Message
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <!-- Statistics Card -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-chart-bar"></i> Statistics</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6">
+                        <div class="stat-item">
+                            <h3 class="text-primary">{{ total_messages|default:0 }}</h3>
+                            <small class="text-muted">Total Messages</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stat-item">
+                            <h3 class="text-success">{{ recent_messages|length }}</h3>
+                            <small class="text-muted">Recent</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Actions Card -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-bolt"></i> Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{% url 'polls:log' %}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> New Message
+                    </a>
+                    <a href="{% url 'polls:current_datetime' %}" class="btn btn-outline-info">
+                        <i class="fas fa-clock"></i> Current Time
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Archive Links -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-archive"></i> Archives</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group list-group-flush">
+                    {% now "Y" as current_year %}
+                    <a href="{% url 'polls:yearly_archive' current_year %}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-calendar"></i> {{ current_year }} Messages
+                    </a>
+                    {% now "n" as current_month %}
+                    <a href="{% url 'polls:monthly_archive' current_year current_month %}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-calendar-day"></i> This Month
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_css %}
+<style>
+.stat-item h3 {
+    margin-bottom: 5px;
+}
+
+.message-content {
+    word-wrap: break-word;
+}
+
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.table th {
+    border-top: none;
+}
+</style>
+{% endblock %}
+{% endblock %}
